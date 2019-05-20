@@ -1,11 +1,11 @@
 require(visNetwork)
 require(shiny)
+dfnet <- read.csv('ng.csv',header=T,stringsAsFactors = F)
+dfnet <- dfnet[1:20,]
+nodes <- data.frame(id = unique(dfnet$term1), label = unique(dfnet$term1),
+                    group = unique(dfnet$term1))
 
-nodes <- data.frame(id = 1:15, label = paste("Label", 1:15),
-                    group = sample(LETTERS[1:3], 15, replace = TRUE))
-
-edges <- data.frame(from = trunc(runif(15)*(15-1))+1,
-                    to = trunc(runif(15)*(15-1))+1)
+edges <- data.frame(from = dfnet$term1, to = dfnet$term2)
 
 server <- function(input, output, session) {
   output$network <- renderVisNetwork({
